@@ -224,7 +224,8 @@ export default {
     list() {
       return this.downloadList.filter(
         (file) =>
-          file.state !== "CANCELLED" && file.file_name.indexOf(keyWord) > -1
+          file.state !== "CANCELLED" &&
+          file.file_name.indexOf(this.keyWord) > -1
       );
     },
   },
