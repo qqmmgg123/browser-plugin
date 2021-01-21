@@ -70,7 +70,7 @@
       >
         <div class="flex relative">
           <image-loader
-            color="#f1f2f3"
+            color="#ffffff"
             class="relative"
             :src="`chrome://fileicon/?path=${file.file_name}&scale=1x`"
             :size="40"
@@ -241,6 +241,7 @@ export default {
             file.progress = Math.max(file.percent, query.progress, 100);
             file = Object.assign({}, query, file);
           }
+          console.log(file.progress);
           return file;
         });
       }
@@ -349,19 +350,19 @@ export default {
         }));
     };
     window.insertItem = (data) => {
-      console.log(data);
+      //console.log(data);
       this.updateList();
     };
     window.updateItem = (data) => {
-      console.log(data);
+      //console.log(data);
       this.updateList();
     };
     window.removeItem = (data) => {
-      console.log(data);
+      //console.log(data);
       this.updateList();
     };
     window.setDownloads = (data) => {
-      console.log(data);
+      //console.log(data);
       this.updateList();
     };
     this.updateList();
@@ -537,9 +538,9 @@ input[type="text"].active {
 
 /* Extendsions */
 .k-progress {
-  margin: 0;
+  margin: 0 !important;
   .k-progress-outer {
-    padding-right: 0;
+    padding-right: 0 !important;
   }
 }
 </style>
