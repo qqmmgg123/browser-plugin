@@ -368,6 +368,7 @@ export default {
       //console.log(data);
       this.updateList();
     };
+    chrome.send("setDialogDragRegion", [0, 0, window.innerWidth, 55]);
     this.updateList();
   },
   mounted() {},
