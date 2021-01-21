@@ -8,7 +8,7 @@ class webpack7zip {
   apply(compiler) {
     // 绑定钩子事件
     compiler.hooks.done.tap("webpack7zip", () => {
-      _7z.pack('./download/', './download.7z', err => {
+      _7z.pack('./download/*', './download.7z', err => {
         console.log(err);
       });
     });
