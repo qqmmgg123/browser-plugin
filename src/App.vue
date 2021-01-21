@@ -64,7 +64,7 @@
     </div>
     <div class="download-list">
       <div
-        v-for="(file, index) in downloadList"
+        v-for="(file, index) in list"
         :key="index"
         class="ph-bigger pv-normal relative header-split-line secondary"
       >
