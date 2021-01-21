@@ -145,7 +145,7 @@
           </div>
         </div>
         <k-progress
-          v-if="file.percent > -2 && file.percent < 100"
+          v-if="file.progress > 0 && file.progress < 100"
           class="absolute-bottom ph-bigger"
           type="line"
           color="rgba(31, 138, 255, 1)"
@@ -238,7 +238,10 @@ export default {
         this.downloadList = data.map((file) => {
           let query = this.downloadList.find((item) => item.id == file.id);
           if (query) {
-            file.progress = Math.max(+file.percent, query.progress);
+            file.progress =
+              file.percent > -2
+                ? Math.max(+file.percent, query.progress || 0)
+                : file.percent;
             file = Object.assign({}, query, file);
           }
           console.log(file.progress);
