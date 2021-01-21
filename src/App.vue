@@ -30,7 +30,7 @@
           ref="searchInput"
           type="text"
           placeholder="search"
-          v-model="keyWord"
+          v-model="inputWord"
           :class="{ active: searchAni }"
           @transitionend="searchTransEnd"
           @input="searchFile"
@@ -176,11 +176,11 @@ export default {
   data() {
     return {
       timer: null,
+      inputWord: "",
       keyWord: "",
       searchShow: false,
       searchAni: false,
       downloadList: [],
-      cache: [],
       downloadStatus: {
         DANGEROUS: {
           name: "危险下载",
@@ -222,7 +222,10 @@ export default {
   },
   computed: {
     list() {
-      return this.downloadList.filter((file) => file.state !== "CANCELLED");
+      return this.downloadList.filter(
+        (file) =>
+          file.state !== "CANCELLED" && file.file_name.indexOf(keyWord) > -1
+      );
     },
   },
   methods: {
@@ -231,18 +234,22 @@ export default {
       let res = await getDownloads();
       let data = res || [];
       if (data) {
-        this.downloadList = data;
+        this.downloadList = data.map((file) => {
+          let query = this.downloadList.find((item) => item.id == file.id);
+          if (query) {
+            return Object.assign({}, query, file);
+          }
+          return file;
+        });
       }
     },
     showSearch() {
       this.searchShow = true;
-      this.cache = [...this.downloadList];
     },
     closeSearch() {
-      this.keyWord = "";
+      this.inputWord = "";
+      this.keyWord = this.inputWord.trim();
       this.searchAni = false;
-      this.downloadList = [...this.cache];
-      this.cache = [];
     },
     searchTransEnd() {
       if (!this.searchAni) {
@@ -254,12 +261,7 @@ export default {
     searchFile() {
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
-        let keyWord = this.keyWord.trim();
-        this.downloadList = keyWord
-          ? this.downloadList.filter((file) => {
-              return file.file_name.indexOf(keyWord) > -1;
-            })
-          : [...this.cache];
+        this.keyWord = this.inputWord.trim();
       }, 300);
     },
     onHeaderBtnClick(type) {
@@ -294,7 +296,7 @@ export default {
           chrome.send("openFileRequiringGesture", [file.id.toString()]);
           break;
         case "openfolder":
-          chrome.send("openDownloadsFolderRequiringGesture", [""]);
+          chrome.send("openDownloadsFolderFile", [""]);
           break;
         case "redownload":
           chrome.send("retryDownload", [file.id.toString()]);
