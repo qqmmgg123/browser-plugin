@@ -293,10 +293,10 @@ export default {
           chrome.send("resume", [file.id.toString()]);
           break;
         case "openfile":
-          chrome.send("openDownloadsFolderFile", [file.id.toString()]);
+          chrome.send("openDownloadsFolderFile", [file.file_path, false]);
           break;
         case "openfolder":
-          chrome.send("openDownloadsFolderFile", [""]);
+          chrome.send("openDownloadsFolderFile", [file.file_path, true]);
           break;
         case "redownload":
           chrome.send("retryDownload", [file.id.toString()]);
