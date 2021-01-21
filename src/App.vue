@@ -238,7 +238,7 @@ export default {
         this.downloadList = data.map((file) => {
           let query = this.downloadList.find((item) => item.id == file.id);
           if (query) {
-            file.progress = Math.max(file.percent, query.progress, 100);
+            file.progress = Math.max(+file.percent, query.progress);
             file = Object.assign({}, query, file);
           }
           console.log(file.progress);
