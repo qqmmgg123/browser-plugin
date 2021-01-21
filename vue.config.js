@@ -1,4 +1,13 @@
 module.exports = {
+  publicPath: './',
+  chainWebpack: config => {
+    config.plugin('html')
+      .tap(args => {
+        args[0].title = "下载器";
+        args[0].filename = "download.html"
+        return args;
+      })
+  },
   configureWebpack: config => {
     config.resolve.alias['vue$'] = 'vue/dist/vue.esm.js';
   },

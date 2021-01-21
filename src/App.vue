@@ -220,7 +220,11 @@ export default {
       },
     };
   },
-  computed: {},
+  computed: {
+    list() {
+      return this.downloadList.filter((file) => file.state !== "CANCELLED");
+    },
+  },
   methods: {
     formatBytes,
     async updateList() {
@@ -278,22 +282,22 @@ export default {
       console.log(type);
       switch (type) {
         case "save":
-          chrome.send("saveDangerousRequiringGesture", [file.id]);
+          chrome.send("saveDangerousRequiringGesture", [file.id.toString()]);
           break;
         case "paused":
-          chrome.send("pause", [file.id]);
+          chrome.send("pause", [file.id.toString()]);
           break;
         case "continue":
-          chrome.send("resume", [file.id]);
+          chrome.send("resume", [file.id.toString()]);
           break;
         case "openfile":
-          chrome.send("openFileRequiringGesture", [file.id]);
+          chrome.send("openFileRequiringGesture", [file.id.toString()]);
           break;
         case "openfolder":
           chrome.send("openDownloadsFolderRequiringGesture", [""]);
           break;
         case "redownload":
-          chrome.send("retryDownload", [file.id]);
+          chrome.send("retryDownload", [file.id.toString()]);
           break;
         case "delete":
           if (file.state === "COMPLETE") {
@@ -318,14 +322,18 @@ export default {
       chrome.send("clearAllWithFile", [""]);
     },
     deleteRecord(file) {
-      chrome.send("remove", [file.id]);
+      chrome.send("remove", [file.id.toString()]);
+      file.tip_show = false;
+      this.downloadList = [...this.downloadList];
     },
     deleteFile(file) {
       if (file.state === "DANGEROUS") {
-        chrome.send("discardDangerous", [file.id]);
+        chrome.send("discardDangerous", [file.id.toString()]);
       } else {
-        chrome.send("removeWithFile", [file.id]);
+        chrome.send("removeWithFile", [file.id.toString()]);
       }
+      file.tip_show = false;
+      this.downloadList = [...this.downloadList];
     },
   },
   created() {
