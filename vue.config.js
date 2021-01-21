@@ -1,5 +1,6 @@
 module.exports = {
   publicPath: './',
+  outputDir: 'download',
   chainWebpack: config => {
     config.plugin('html')
       .tap(args => {
