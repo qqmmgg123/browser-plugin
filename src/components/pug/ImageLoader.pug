@@ -1,0 +1,5 @@
+block wrapper
+  .image(:style="{ width: `${size || width}px`, height: `${size || height}px`, backgroundImage: src ? (displayType === 'background' ? `url(${src})` : null) : null, backgroundSize: src ? fit : null, backgroundColor: color ? color : null  }")
+    slot
+    block image
+      img(v-if="displayType !== 'background' && src", :src="src", :style="{ objectFit: fit }")

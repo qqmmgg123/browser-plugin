@@ -1,4 +1,4 @@
-# night-mode-vue
+# downloader
 
 ## Project setup
 ```
