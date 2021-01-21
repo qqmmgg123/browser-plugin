@@ -293,7 +293,7 @@ export default {
           chrome.send("resume", [file.id.toString()]);
           break;
         case "openfile":
-          chrome.send("openFileRequiringGesture", [file.id.toString()]);
+          chrome.send("openDownloadsFolderFile", [file.id.toString()]);
           break;
         case "openfolder":
           chrome.send("openDownloadsFolderFile", [""]);
